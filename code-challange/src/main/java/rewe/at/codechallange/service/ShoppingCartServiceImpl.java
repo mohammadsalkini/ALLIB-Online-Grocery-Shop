@@ -92,12 +92,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
+    public ShoppingCart openShoppingCart(Long shoppingCartId) {
+        ShoppingCart shoppingCart = getShoppingCart(shoppingCartId);
+        shoppingCart.setState(ShoppingCartState.OPEN);
+        return shoppingCartRepository.save(shoppingCart);
+    }
+
+    @Override
     public ShoppingCart mergeShoppingCarts(Long shoppingCartId1, Long shoppingCartId2) {
         ShoppingCart shoppingCart1 = shoppingCartRepository.findById(shoppingCartId1)
-                .orElseThrow(()-> new ShoppingCartException("Unable to find shoppingCart with the id: " + shoppingCartId1));
+                .orElseThrow(() -> new ShoppingCartException("Unable to find shoppingCart with the id: " + shoppingCartId1));
 
         ShoppingCart shoppingCart2 = shoppingCartRepository.findById(shoppingCartId2)
-                .orElseThrow(()-> new ShoppingCartException("Unable to find shoppingCart with the id: " + shoppingCartId2));
+                .orElseThrow(() -> new ShoppingCartException("Unable to find shoppingCart with the id: " + shoppingCartId2));
 
         if (shoppingCart1.getState() != ShoppingCartState.OPEN || shoppingCart2.getState() != ShoppingCartState.OPEN) {
             throw new ShoppingCartException("One or both of the shoppingCarts are not on the state OPEN");
@@ -111,11 +118,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                             .stream()
                             .filter(item1 ->
                                     item1.getProduct().getId().equals(item2.getProduct().getId()))
-                                    .findFirst()
-                                    .map(item -> {
-                                        item.setQuantity(item.getQuantity() + item2.getQuantity());
-                                        return true;
-                                    })
+                            .findFirst()
+                            .map(item -> {
+                                item.setQuantity(item.getQuantity() + item2.getQuantity());
+                                return true;
+                            })
                             .orElse(false);
                     if (!isItemExist) {
                         shoppingCart1.getItems().add(item2);

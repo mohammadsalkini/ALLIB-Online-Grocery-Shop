@@ -11,6 +11,7 @@ public interface ShoppingCartService {
     ShoppingCart addPersonalInfoToShoppingCart(Long cartId, PersonalInfo personalInfo);
     ShoppingCart removePersonalInfoFromShoppingCart(Long shoppingCartId);
     ShoppingCart checkoutShoppingCart(Long shoppingCartId);
+    ShoppingCart openShoppingCart(Long shoppingCartId);
     ShoppingCart mergeShoppingCarts(Long shoppingCartId1, Long shoppingCartId2);
 
 }
