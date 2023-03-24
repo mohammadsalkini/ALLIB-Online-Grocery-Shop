@@ -1,12 +1,12 @@
 package rewe.at.codechallange.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import rewe.at.codechallange.enums.ShoppingCartState;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
